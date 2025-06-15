@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/material-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 主内容区域 */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        /* 前景容器 */
+        #foreground-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+<!--        #canvas_video {-->
+<!--            max-width: 100%;-->
+<!--            max-height: 100%;-->
+<!--            object-fit: contain;-->
+<!--        }-->
+
+        #canvas_video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* 加载状态 */
+        #loadingSpinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 60, 100, 0.2);
+            border-top: 5px solid #ff3c64;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loadingSpinner strong {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 开始提示 */
+        #startMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+            z-index: 15;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            max-width: 80%;
+        }
+
+        #startMessage:hover {
+            background-color: rgba(255, 255, 255, 0.95);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        #canvas_gl {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 128px;
+            height: 128px;
+        }
+
+        #screen2 {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: none;
+            z-index: 5;
+            display: none; /* 初始隐藏 */
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .title-bar {
+                padding: 0 10px;
+            }
+
+            .custom-select {
+                min-width: 80px;
+            }
+
+            #startMessage {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 主内容区域 -->
+    <div class="main-container">
+
+        <!-- 前景容器 -->
+        <div id="foreground-container">
+            <canvas id="canvas_video"></canvas>
+        </div>
+
+        <!-- 加载状态 -->
+        <div id="loadingSpinner">
+            <div class="spinner"></div>
+            <strong>MatesX: 正在加载中...</strong>
+        </div>
+
+        <!-- 开始提示 -->
+        <div id="startMessage">请点击屏幕开始</div>
+    </div>
+    <canvas id="canvas_gl" width="128" height="128"></canvas>
+    <iframe id="screen2" src="dialog.html" frameborder="0"></iframe>
+    <script src="js/pako.min.js"></script>
+    <script src="js/DHLiveMini.js"></script>
+    <script src="js/MiniMateLoader.js"></script>
+    <script src="js/MiniLive.js"></script>
+</body>
+</html>
